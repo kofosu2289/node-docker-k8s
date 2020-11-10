@@ -16,6 +16,10 @@ app.get("/hello/:name", (request, response) => {
   response.send( `Hello ${request.params.name}!` );
 });
 
+app.get("/health", (request, response) => {
+  response.send( "Placeholder for system metrics" );
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
