@@ -30,7 +30,18 @@ const countsRoute = (request, response) => {
   pool
     .query("SELECT name, count FROM names")
     .then((res) => {
-      response.status(200).json(res.rows)
+      response.status(200).json(res.rows);
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+const deleteRoute = (request, response) => {
+  pool
+    .query("DELETE FROM names")
+    .then((res) => {
+      response.status(200).json(res.rows);
     })
     .catch((error) => {
       throw error;
@@ -39,5 +50,6 @@ const countsRoute = (request, response) => {
 
 module.exports = {
   helloRoute,
-  countsRoute
+  countsRoute,
+  deleteRoute
 };

@@ -23,7 +23,7 @@ app.get("/health", (request, response) => {
 
 app.get("/counts", db.countsRoute);
 
-
+app.delete('/counts', db.deleteRoute)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
