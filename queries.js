@@ -20,7 +20,17 @@ const helloRoute = (request, response) => {
     )
     .then((res) => {
       response.status(200).send(`Hello ${name}`);
-      
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+const countsRoute = (request, response) => {
+  pool
+    .query("SELECT name, count FROM names")
+    .then((res) => {
+      response.status(200).json(res.rows)
     })
     .catch((error) => {
       throw error;
@@ -29,4 +39,5 @@ const helloRoute = (request, response) => {
 
 module.exports = {
   helloRoute,
+  countsRoute
 };

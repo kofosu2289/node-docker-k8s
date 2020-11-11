@@ -21,6 +21,10 @@ app.get("/health", (request, response) => {
   response.send("Placeholder for system metrics");
 });
 
+app.get("/counts", db.countsRoute);
+
+
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
