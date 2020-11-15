@@ -1,0 +1,40 @@
+version: '3'
+services: 
+  postgres:
+    image: postgres:latest
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=api
+      - POSTGRES_USER=me
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U me"]
+      interval: 30s
+      timeout: 30s
+      retries: 3 
+
+  node-docker-k8s-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    container_name: node-docker-k8s-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - /app/node_modules 
+    environment:
+      - DB_USER=me
+      - DB_HOST=host.docker.internal
+      - DB_DATABASE=api
+      - DB_PASSWORD=password
+      - DB_PORT=5432 
+  # Inside the container, don't try to override this folder, just leave as is
+volumes:
+  db-data:

@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const os = require("os");
 const db = require("./queries");
 
-
 const app = express();
 app.use(morgan('dev'))
 const port = 3000;
@@ -17,10 +16,14 @@ app.use(
 );
 
 app.get("/", (request, response) => {
-  response.send("Node.js, Express, and Postgres API");
+  response.status(200).send("Node.js, Express, and Postgres API");
 });
 
 app.get("/hello/:name", db.helloRoute);
+
+app.get("/counts", db.countsRoute);
+
+app.delete("/counts", db.deleteRoute);
 
 app.get("/health", (request, response) => {
   response.status(200).send({
@@ -30,10 +33,6 @@ app.get("/health", (request, response) => {
     free_memory: os.freemem() + " bytes",
   });
 });
-
-app.get("/counts", db.countsRoute);
-
-app.delete("/counts", db.deleteRoute);
 
 app.get("*", (request, response) => {
   const { method, url } = request;
