@@ -4,8 +4,8 @@ WORKDIR /app
 # Install dependencies
 COPY package.json .
 RUN npm install 
-COPY . .
 COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
+COPY . .
 EXPOSE 3000
 # Default command
 CMD ["npm", "start"]
